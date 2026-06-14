@@ -1,1 +1,1 @@
-print("hello world")
+from app.core.config import SECRET_KEY, DEBUG
