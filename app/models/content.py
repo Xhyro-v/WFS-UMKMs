@@ -1,8 +1,9 @@
 from datetime import datetime
 from sqlalchemy import Column, String ,Integer,Boolean, DateTime, ForeignKey, Text
 from sqlalchemy import Enum as SQLEnum
-from db.base import Base
-from enums.content_type import ContentType
+from app.db.base import Base
+from app.enums.content_type import ContentType
+
 
 class Contents(Base):
     __tablename__ = "contents"

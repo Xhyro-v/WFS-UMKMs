@@ -1,8 +1,8 @@
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy import Enum as SQLEnum
-from db.base import Base
-from enums.menu_type import MenuType
+from app.db.base import Base
+from app.enums.menu_type import MenuType
 
 class Menu(Base):
     __tablename__ = "menus"

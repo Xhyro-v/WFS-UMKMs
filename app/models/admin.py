@@ -1,5 +1,5 @@
 from sqlalchemy import Column ,Integer, String ,ForeignKey, DateTime
-from db.Base import Base
+from app.db.base import Base
 
 
 class Admin(Base):
