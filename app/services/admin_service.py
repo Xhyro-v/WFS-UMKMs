@@ -10,17 +10,46 @@ def authenticate_admin(db, email, password):
     if not admin:
         return None
 
-    if admin.password_hash != admin.password_hash:
+    #jaga-jaga 
+    if not bcrypt.verify(password,admin.password_hash):
         return None
 
     return admin
 
-def register_admin(db,data ,bcrypt):
+def register_admin(db,data):
+
+    if len(data.username) < 2:
+        raise HTTPException(
+          status_code=400,
+          detail="Username terlalu pendek!,minimal 5 karakter"
+        )
+      
+    if len(data.username) > 25:
+        raise HTTPException(
+          status_code=400,
+          detail="Username terlalu panjang!,maksimal 25 karakter"
+        )
+      
+    if len(data.password) < 8:
+        raise HTTPException(
+            status_code=400,
+            detail="Password mininal 8 karakter !"
+        )
+
+    if len(data.password) > 20:
+        raise HTTPException(
+            status_code=400,
+            detail="Password maksimal 20 karakter !"
+        )
+
+
+
     if data.password != data.confirm_password:
         raise HTTPException(
             status_code=400,
             detail="Password dan konfirmasi password tidak sama."
         )
+
 
     password_hash = bcrypt.hash(data.password)
 

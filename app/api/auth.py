@@ -14,6 +14,13 @@ router = APIRouter(
 )
 
 
+
+@router.post("/registration")
+def register(data : AdminRegister,
+             db:Session = Depends(get_db)):
+    return register_admin(db,data)
+
+
 @router.post("/login")
 def login(data: AdminLogin, db: Session = Depends(get_db)):
     admin = authenticate_admin(
@@ -32,8 +39,3 @@ def login(data: AdminLogin, db: Session = Depends(get_db)):
         "message": "Login successful",
         "username": admin.username
     }
-
-@router.post("/registration")
-def register(data : AdminRegister,
-             db:Session = Depends(get_db)):
-    return register_admin(db,data,bcrypt)
