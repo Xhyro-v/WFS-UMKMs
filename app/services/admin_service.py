@@ -1,8 +1,11 @@
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
 from passlib.hash import bcrypt
 
 from app.repositories.admin_repository import get_by_email
+from app.services.auth_service import create_access_token
+from app.schemas.admin import AdminLogin
 from app.models.admin import Admin
 
 def authenticate_admin(db, email, password):
@@ -15,6 +18,31 @@ def authenticate_admin(db, email, password):
         return None
 
     return admin
+
+def login_admin(db: Session,data: AdminLogin):
+    admin = authenticate_admin(
+          db,
+          data.email,
+          data.password
+      )
+
+    if admin is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password"
+        )
+    
+    token = create_access_token(
+        {
+        "sub":admin.email
+      }
+    )
+    
+    return {
+      "access_token": token,
+      "token_type": "bearer"
+    }
+
 
 def register_admin(db,data):
 

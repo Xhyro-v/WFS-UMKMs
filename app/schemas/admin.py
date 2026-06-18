@@ -8,7 +8,7 @@ class AdminRegister(BaseModel):
 
 class AdminLogin(BaseModel):
     email: EmailStr
-    password: str = Field(min_length=8)
+    password : str 
 
 class AdminOut(BaseModel):
     id: int
@@ -18,3 +18,10 @@ class AdminOut(BaseModel):
     model_config = {
         "from_attributes": True
     }
+
+class Token(BaseModel):
+    access_token : str
+    token_type : str
+
+class TokenData(BaseModel):
+    email : str | None = None
