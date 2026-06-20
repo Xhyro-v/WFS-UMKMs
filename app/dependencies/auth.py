@@ -14,8 +14,25 @@ def get_current_admin(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
 ):
-    print("TOKEN:", token)
+    payload = verify_access_token(token)
 
-    return {
-        "debug": token
-    }
+    if payload is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid token"
+        )
+
+    email = payload.get("sub")
+
+    admin = get_by_email(
+        db,
+        email
+    )
+
+    if admin is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Admin not found"
+        )
+
+    return admin
