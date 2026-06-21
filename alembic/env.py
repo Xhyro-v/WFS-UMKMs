@@ -8,7 +8,9 @@ from alembic import context
 from app.db.base import Base
 from app.core.config import DATABASE_URL
 from app.models.admin import Admin
-from app.models.category import Category
+from app.models.content import Content
+from app.models.menu import Menu
+from app.models.gallery import GalleryPhotos
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
