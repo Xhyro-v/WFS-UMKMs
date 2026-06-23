@@ -16,7 +16,7 @@ class AdminOut(BaseModel):
     email: EmailStr
 
     model_config = ConfigDict(
-        "from_attributes": True
+        from_attributes = True
     )
 
 class Token(BaseModel):
