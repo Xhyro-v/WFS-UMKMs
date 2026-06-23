@@ -2,9 +2,10 @@ from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from app.models.menu import menu
+from app.models.menu import Menu
 from app.repositories.menu_repository import get_by_id, get_by_type, get_all, create_menu, update_menu, delete_menu
 from app.schemas.menu import MenuCreate, MenuUpdate
+from app.enums.menu_type import MenuType
 
 def create_menu_service(
       db: Session,

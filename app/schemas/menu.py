@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, ConfigDict
-from app.enum.menu_type import MenuType
+from app.enums.menu_type import MenuType
 
 
 class MenuCreate(BaseModel):
@@ -19,7 +19,7 @@ class MenuUpdate(BaseModel):
 class MenuResponse(BaseModel):
     id : int
     title : str
-    price : str
+    price : int
     description : str | None
     image_path : str
     menu_type : MenuType
