@@ -141,7 +141,7 @@ def get_by_type_service(db:Session, menu_type:MenuType):
       if not menu :
             raise HTTPException(
                 status_code=422,
-                detail="Menu tidak tersedia !"
+                detail="Menu tidak tersedia/kosong !"
             )
       return menu
 

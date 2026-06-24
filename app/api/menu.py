@@ -5,8 +5,9 @@ from sqlalchemy.orm import Session
 
 from app.db.session import get_db
 from app.models.menu import Menu
-from app.schemas.menu import MenuCreate,MenuResponse
-from app.services.menu_service import create_menu_service, get_all_menu, get_menu
+from app.enums.menu_type import MenuType
+from app.schemas.menu import MenuCreate,MenuResponse,MenuUpdate
+from app.services.menu_service import create_menu_service,update_menu_service, delete_menu_service, get_all_menu, get_menu, get_by_type_service
 from app.dependencies.auth import get_current_admin
 
 router = APIRouter(
@@ -28,11 +29,42 @@ def create_menu(
           current_admin
       )
 
+@router.put("/update/{menu_id}")
+def update_menu(
+      data: MenuUpdate,
+      menu_id : int,
+      db: Session = Depends(get_db)
+):
+      return update_menu_service(db,menu_id,data)
+
+@router.delete("/delete/{menu_id}")
+def delete_menu(
+      menu_id : int,
+      db : Session = Depends(get_db)
+):
+      return delete_menu_service(db, menu_id)
+
+
+@router.get("/all")
+def show_all_menu(
+    db: Session = Depends(get_db)
+):
+    return get_all_menu(db)
+
+
+@router.get("{/type/menu_type}")
+def show_by_type(
+    menu_type: MenuType,
+    db: Session = Depends(get_db)
+):
+    return get_by_type_service(db,menu_type)
+
 @router.get(
     "/{menu_id}"
 )
-def show_menu(
+def show_menu_by_id(
     menu_id: int,
     db: Session = Depends(get_db)
 ):
     return get_menu(db, menu_id)
+
