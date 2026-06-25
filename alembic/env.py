@@ -8,7 +8,7 @@ from alembic import context
 from app.db.base import Base
 from app.core.config import DATABASE_URL
 from app.models.admin import Admin
-from app.models.content import Contents
+from app.models.content import Content
 from app.models.menu import Menu
 from app.models.gallery import GalleryPhoto
 
