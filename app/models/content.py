@@ -5,7 +5,7 @@ from app.db.base import Base
 from app.enums.content_type import ContentType
 
 
-class Contents(Base):
+class Content(Base):
     __tablename__ = "contents"
     
     id = Column(Integer,primary_key=True, index=True)
