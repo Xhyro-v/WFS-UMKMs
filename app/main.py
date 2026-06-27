@@ -5,7 +5,9 @@ from sqlalchemy.exc import OperationalError
 from app.core.config import SECRET_KEY, DEBUG
 from app.api.auth import router as auth_router
 from app.api.menu import router as menu_router
+from app.api.content import router as content_router
 from app.errors.error_handler import database_error_handler,validation_error_handler
+from app.dependencies.auth import get_current_admin
 
 
 app = FastAPI(
@@ -24,6 +26,7 @@ app.add_exception_handler(
 
 app.include_router(auth_router)
 app.include_router(menu_router)
+app.include_router(content_router)
 
 
 @app.get("/")

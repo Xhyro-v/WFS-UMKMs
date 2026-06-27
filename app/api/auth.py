@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from passlib.hash import bcrypt
+from fastapi.security import OAuth2PasswordRequestForm
+
 
 from app.db.session import get_db
 from app.schemas.admin import AdminLogin, AdminRegister
@@ -17,8 +19,11 @@ router = APIRouter(
 
 
 @router.post("/registration")
-def register(data : AdminRegister,
-             db:Session = Depends(get_db)):
+def register(
+      data : AdminRegister,
+      db:Session = Depends(get_db),
+      current_admin = Depends(get_current_admin)
+):
     return register_admin(db,data)
 
 
@@ -38,3 +43,16 @@ def me(
         "username": current_admin.username,
         "email": current_admin.email
     }
+
+
+@router.post("/token")
+def get_access_token(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db)
+):
+    data = AdminLogin(
+        email=form_data.username,
+        password=form_data.password
+    )
+
+    return login_admin(db, data)
