@@ -46,14 +46,21 @@ def get_by_type(
 ):
       return (
           db.query(Content)
-          .filter(Content.type == content_type)
-          .all
+          .filter(Content.content_type == content_type)
+          .all()
       )
 
 def get_published(db: Session):
       return (
           db.query(Content)
-          .filter(content.is_published == True)
+          .filter(Content.is_published == True)
+          .all()
+      )
+
+def get_un_published(db: Session):
+      return (
+          db.query(Content)
+          .filter(Content.is_published == False)
           .all()
       )
 

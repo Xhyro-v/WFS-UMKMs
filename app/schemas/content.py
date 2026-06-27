@@ -13,6 +13,7 @@ class ContentUpdate(BaseModel):
       title : str | None = None
       content_type : ContentType | None = None
       description : str | None = None
+      image_path : str | None = None
       location : str | None = None
 
 
