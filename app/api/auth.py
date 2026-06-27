@@ -38,11 +38,3 @@ def me(
         "username": current_admin.username,
         "email": current_admin.email
     }
-
-@router.get("/test")
-def test(
-    token: str = Depends(oauth2_scheme)
-):
-    return {
-        "token": token
-    }

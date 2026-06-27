@@ -33,14 +33,16 @@ def create_menu(
 def update_menu(
       data: MenuUpdate,
       menu_id : int,
-      db: Session = Depends(get_db)
+      db: Session = Depends(get_db),
+      current_admin = Depends(get_current_admin)
 ):
       return update_menu_service(db,menu_id,data)
 
 @router.delete("/delete/{menu_id}")
 def delete_menu(
       menu_id : int,
-      db : Session = Depends(get_db)
+      db : Session = Depends(get_db),
+      current_admin = Depends(get_current_admin)
 ):
       return delete_menu_service(db, menu_id)
 

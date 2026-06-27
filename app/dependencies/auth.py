@@ -7,8 +7,9 @@ from app.services.auth_service import verify_access_token
 from app.repositories.admin_repository import get_by_email
 
 oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl="/auth/login"
+    tokenUrl="/auth/token"
 )
+
 
 def get_current_admin(
     token: str = Depends(oauth2_scheme),
