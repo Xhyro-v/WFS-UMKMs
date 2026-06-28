@@ -5,7 +5,21 @@ from sqlalchemy.orm import Session
 from app.models.content import Content
 from app.enums.content_type import ContentType
 from app.schemas.content import ContentCreate, ContentResponse, ContentUpdate
-from app.repositories.content_repository import create_content, update_content, delete_content, get_by_id, get_all, get_by_type, get_published,get_un_published,  publish_content, un_publish_content
+from app.repositories.content_repository import(               create_content,
+    update_content, 
+    delete_content,
+    get_by_id, 
+    get_all, 
+    get_by_type, 
+    get_published,
+    get_un_published,  
+    publish_content, 
+    un_publish_content, 
+#
+    get_by_id_published,
+    get_all_published,
+    get_by_published_type
+)
 
 def create_content_service(
       db: Session,
@@ -212,3 +226,29 @@ def un_publish_content_service(
           "message":"Content unpublished successfully",
           "Content": content.title
       }
+
+
+
+#——————————————————————PUBLICSERVICE—————————————————————————
+
+def get_by_id_published_service(
+      db: Session,
+      content_id: int
+):
+      content = get_by_id_published(db,content_id)
+      
+      if not content:
+            raise HTTPException(
+                status_code=404,
+                detail="Content not found"
+            )
+      return content
+
+def get_all_published_content(db: Session):
+      return get_all_published(db)
+
+def get_by_published_type_content(
+      db: Session,
+      content_type: ContentType
+):
+      return get_by_published_type(db,content_type)

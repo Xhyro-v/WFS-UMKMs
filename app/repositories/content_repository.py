@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from app.models.content import Content
 from app.enums.content_type import ContentType
 
-
+#CRUD
 def create_content(
   db: Session,
   content: Content
@@ -28,6 +28,7 @@ def delete_content(
       db.commit()
 
       return content
+#End CRUD
 
 
 def get_by_id(
@@ -103,3 +104,39 @@ def un_publish_content(
         db.refresh(content)
 
     return content
+
+
+#——————————————————————PUBLICSERVICE—————————————————————————
+
+def get_by_id_published(
+    db: Session,
+    content_id : int
+):
+      return (
+          db.query(Content)
+          .filter(
+                Content.id == content_id,
+                Content.is_published == True
+          )
+          .first()
+      )
+
+def get_all_published(db: Session):
+      return (
+          db.query(Content)
+          .filter(Content.is_published == True)
+          .all()
+      )
+
+def get_by_published_type(
+    db: Session ,
+    content_type: ContentType
+):
+      return (
+          db.query(Content)
+          .filter(
+                  Content.content_type == content_type,
+                  Content.is_published == True
+          )
+          .all()
+      )
