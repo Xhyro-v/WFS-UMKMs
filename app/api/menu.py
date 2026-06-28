@@ -7,8 +7,13 @@ from app.db.session import get_db
 from app.models.menu import Menu
 from app.enums.menu_type import MenuType
 from app.schemas.menu import MenuCreate,MenuResponse,MenuUpdate
-from app.services.menu_service import create_menu_service,update_menu_service, delete_menu_service, get_all_menu, get_menu, get_by_type_service
 from app.dependencies.auth import get_current_admin
+from app.services.menu_service import (
+      get_id_by_published_menu,
+      get_all_published_menus,
+      get_by_published_type_service,
+      get_by_published_title_service
+)
 
 router = APIRouter(
     prefix="/menu",
@@ -17,41 +22,12 @@ router = APIRouter(
 
 templates = Jinja2Templates(directory="templates")
 
-@router.post("/create")
-def create_menu(
-      data: MenuCreate,
-      db: Session = Depends(get_db),
-      current_admin = Depends(get_current_admin)
-):
-      return create_menu_service(
-          db,
-          data,
-          current_admin
-      )
 
-@router.put("/update/{menu_id}")
-def update_menu(
-      data: MenuUpdate,
-      menu_id : int,
-      db: Session = Depends(get_db),
-      current_admin = Depends(get_current_admin)
-):
-      return update_menu_service(db,menu_id,data)
-
-@router.delete("/delete/{menu_id}")
-def delete_menu(
-      menu_id : int,
-      db : Session = Depends(get_db),
-      current_admin = Depends(get_current_admin)
-):
-      return delete_menu_service(db, menu_id)
-
-
-@router.get("/all")
+@router.get("/menus")
 def show_all_menu(
     db: Session = Depends(get_db)
 ):
-    return get_all_menu(db)
+    return get_all_published_menus(db)
 
 
 @router.get("{/type/menu_type}")
@@ -59,7 +35,7 @@ def show_by_type(
     menu_type: MenuType,
     db: Session = Depends(get_db)
 ):
-    return get_by_type_service(db,menu_type)
+    return get_by_published_type_servicee(db,menu_type)
 
 @router.get(
     "/{menu_id}"
@@ -68,5 +44,5 @@ def show_menu_by_id(
     menu_id: int,
     db: Session = Depends(get_db)
 ):
-    return get_menu(db, menu_id)
+    return get_id_by_published_menu(db, menu_id)
 

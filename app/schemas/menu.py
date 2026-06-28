@@ -23,6 +23,7 @@ class MenuResponse(BaseModel):
     description : str | None
     image_path : str
     menu_type : MenuType
+    is_uploaded : bool
     uploaded_by : int
   
     model_config = ConfigDict(

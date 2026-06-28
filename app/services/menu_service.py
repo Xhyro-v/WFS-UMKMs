@@ -3,9 +3,21 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.models.menu import Menu
-from app.repositories.menu_repository import get_by_id, get_by_type, get_all, create_menu, update_menu, delete_menu
 from app.schemas.menu import MenuCreate, MenuUpdate
 from app.enums.menu_type import MenuType
+from app.repositories.menu_repository import (
+      get_by_id,
+      get_by_type,
+      get_all,
+      get_by_title,
+      create_menu, 
+      update_menu, 
+      delete_menu,
+      get_by_published_title,
+      get_by_published_id,
+      get_by_published_type,
+      get_by_published_menus
+)
 
 def create_menu_service(
       db: Session,
@@ -21,29 +33,29 @@ def create_menu_service(
     if len(data.title) > 40:
         raise HTTPException(
             status_code=400,
-            detail="Maksimal 40 huruf !"
+            detail="Max 40 character !"
           )
     if not data.title.strip():
         raise HTTPException(
             status_code=400,
-            detail="Isi nama menu !!"
+            detail="Fill menu name !!"
           )
     
     if data.price <= 0:
         raise HTTPException(
             status_code=401,
-            detail="Isi harga menu !!"
+            detail="Fill menu price !!"
         )
     
     if len(data.description) == 0 :
           raise HTTPException(
               status_code=401,
-              detail="Isi deskripsi menu !"
+              detail="Fill menu description !"
           )
     if len(data.description) > 100 :
           raise HTTPException(
               status_code=401,
-              detail="Maksimal 100 huruf !"
+              detail="Max 100 character!"
           )
     
     new_menu = Menu(
@@ -61,10 +73,10 @@ def create_menu_service(
         db.rollback()
         raise HTTPException(
             status_code=409,
-            detail="Menu sudah ada!!"
+            detail="The menu has been made!!"
         )
     
-    return {"message":"Menu berhasil ditambahkan",
+    return {"message":"Menu successfully created",
             "Menu": new_menu.title,
             "uploaded_by":new_menu.uploaded_by
     }
@@ -79,7 +91,7 @@ def update_menu_service(
       if not menu:
           raise HTTPException(
               status_code=404,
-              detail="Menu tidak ditemukan"
+              detail="Menu not found"
           )
       
       menu.title = data.title
@@ -96,11 +108,11 @@ def update_menu_service(
       
           raise HTTPException(
               status_code=409,
-              detail="Terjadi kesalahan saat update menu"
+              detail="Theres a mistake while updating!"
           )
       
       return {
-          "message": "Menu berhasil diupdate",
+          "message": "Menu successfully updated",
           "menu": updated_menu.title
       }
 
@@ -114,13 +126,13 @@ def delete_menu_service(
       if not menu:
           raise HTTPException(
               status_code=404,
-              detail="Menu tidak ditemukan"
+              detail="Menu not found"
           )
       
       delete_menu(db, menu)
       
       return {
-          "message": "Menu berhasil dihapus"
+          "message": "Menu successfully deleted"
       }
 
 
@@ -129,8 +141,20 @@ def get_menu(db: Session ,menu_id: int):
       if not menu :
         raise HTTPException(
             status_code=404,
-            detail="Tidak ada menu"
+            detail="Menu not found"
         )
+      return menu
+
+def get_by_title_menu(
+      db: Session,
+      menu_title : str
+):
+      menu = get_by_title(db,menu_title)
+      if not menu:
+            raise HTTPException(
+                  status_code=404,
+                  detail="Menu not found"
+            )
       return menu
 
 def get_all_menu(db: Session):
@@ -141,7 +165,50 @@ def get_by_type_service(db:Session, menu_type:MenuType):
       if not menu :
             raise HTTPException(
                 status_code=422,
-                detail="Menu tidak tersedia/kosong !"
+                detail="Menu not found in this type!"
             )
       return menu
 
+#——————————————————————PUBLICSERVICE—————————————————————————
+
+def get_id_by_published_menu(
+      db: Session,
+      menu_id: int
+):
+      menu = get_by_published_id(db, menu_id)
+      if not menu :
+        raise HTTPException(
+            status_code=404,
+            detail="Menu not found"
+        )
+      return menu
+
+def get_all_published_menus(db: Session):
+      return get_by_published_menus(db)
+
+def get_by_published_type_service(
+      db:Session,
+      menu_type:MenuType
+):
+      menu = get_by_published_type(db, menu_type)
+      if not menu :
+            raise HTTPException(
+                status_code=422,
+                detail="Menu not found in this type!"
+            )
+      return menu
+
+def get_by_published_title_service(
+      db: Session,
+      menu_title: str
+):
+      menu = get_by_published_title(db, menu_title)
+      
+      if not menu:
+            raise HTTPException(
+                  status_code=404,
+                  detail="Menu not found!"
+            )
+      return menu
+      
+      

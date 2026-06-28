@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean
 from sqlalchemy import Enum as SQLEnum
 from app.db.base import Base
 from app.enums.menu_type import MenuType
@@ -16,6 +16,7 @@ class Menu(Base):
         SQLEnum(MenuType),
         nullable=False,
     )
+    is_published = Column(Boolean, default=False,nullable=False)
     uploaded_by = Column(
     Integer,
     ForeignKey("admins.id"),
