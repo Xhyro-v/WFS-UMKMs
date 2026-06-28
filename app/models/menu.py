@@ -11,7 +11,7 @@ class Menu(Base):
     title = Column(String,nullable=False)
     price = Column(Integer,nullable=False)
     description = Column(String,nullable=True)
-    image_path = Column(String,nullable=False)
+    image_path = Column(String(256),nullable=False)
     menu_type = Column(
         SQLEnum(MenuType),
         nullable=False,
