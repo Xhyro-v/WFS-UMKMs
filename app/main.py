@@ -9,6 +9,7 @@ from app.api.gallery import router as gallery_router
 from app.api.content import router as content_router
 from app.api.admin.gallery import router as admin_gallery_router
 from app.api.admin.content import router as admin_content_router
+from app.api.admin.menu import router as admin_menu_router
 from app.errors.error_handler import database_error_handler,validation_error_handler
 from app.dependencies.auth import get_current_admin
 
@@ -35,6 +36,7 @@ app.include_router(content_router)
 
 app.include_router(admin_gallery_router)
 app.include_router(admin_content_router)
+app.include_router(admin_menu_router)
 
 
 @app.get("/")

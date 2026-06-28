@@ -14,12 +14,13 @@ from app.services.menu_service import (
         delete_menu_service,
         get_all_menu,
         get_menu,
-        get_by_type_service
+        get_by_type_service,
+        get_by_title_menu
 )
 
 router = APIRouter(
     prefix="/admin/menu",
-    tags=["Menus"]
+    tags=["Admin Menus"]
 )
 
 templates = Jinja2Templates(directory="templates")
@@ -68,9 +69,15 @@ def show_by_type(
 ):
     return get_by_type_service(db,menu_type)
 
-@router.get(
-    "/{menu_id}"
-)
+@router.get("/{menu_title}")
+def show_by_title_menu(
+      menu_title: str,
+      db: Session = Depends(get_db),
+      current_admin = Depends(get_current_admin)
+):
+      return get_by_title_menu(db, menu_title)
+
+@router.get("/{menu_id}")
 def show_menu_by_id(
     menu_id: int,
     db: Session = Depends(get_db)

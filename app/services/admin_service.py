@@ -49,25 +49,25 @@ def register_admin(db,data):
     if len(data.username) < 2:
         raise HTTPException(
           status_code=400,
-          detail="Username terlalu pendek!,minimal 5 karakter"
+          detail="Username too short,min 5 character!"
         )
       
     if len(data.username) > 25:
         raise HTTPException(
           status_code=400,
-          detail="Username terlalu panjang!,maksimal 25 karakter"
+          detail="Username too long,mix 25 character"
         )
       
     if len(data.password) < 8:
         raise HTTPException(
             status_code=400,
-            detail="Password mininal 8 karakter !"
+            detail="Password min 8 character !"
         )
 
     if len(data.password) > 20:
         raise HTTPException(
             status_code=400,
-            detail="Password maksimal 20 karakter !"
+            detail="Password max 20 character !"
         )
 
 
@@ -75,7 +75,7 @@ def register_admin(db,data):
     if data.password != data.confirm_password:
         raise HTTPException(
             status_code=400,
-            detail="Password dan konfirmasi password tidak sama."
+            detail="Password or password confirmation not same!!"
         )
 
 
@@ -95,8 +95,8 @@ def register_admin(db,data):
         db.rollback()
         raise HTTPException(
             status_code=409,
-            detail="Username atau email sudah terdaftar."
+            detail="Username or email already registraded."
         )
 
-    return {"message":"Registrasi berhasil",
+    return {"message":"Successfully registraded",
             "username": new_admin.username}

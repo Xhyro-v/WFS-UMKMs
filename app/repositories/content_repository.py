@@ -30,7 +30,7 @@ def delete_content(
       return content
 #End CRUD
 
-
+#Show data
 def get_by_id(
     db: Session,
     content_id : int
@@ -70,7 +70,10 @@ def get_all(db: Session):
           db.query(Content)
           .all()
       )
+#End Data Show
 
+
+#Change Status
 def publish_content(
     db: Session,
     content_id: int
@@ -104,7 +107,7 @@ def un_publish_content(
         db.refresh(content)
 
     return content
-
+#End Status Change
 
 #——————————————————————PUBLICSERVICE—————————————————————————
 

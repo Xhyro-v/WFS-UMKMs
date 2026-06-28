@@ -37,9 +37,15 @@ def show_by_type(
 ):
     return get_by_published_type_servicee(db,menu_type)
 
-@router.get(
-    "/{menu_id}"
-)
+@router.get("/{menu_title}")
+def show_by_menu_title(
+      menu_title: str,
+      db: Session = Depends(get_db)
+):
+      return get_by_published_title_service(db, menu_title)
+
+
+@router.get("/{menu_id}")
 def show_menu_by_id(
     menu_id: int,
     db: Session = Depends(get_db)
