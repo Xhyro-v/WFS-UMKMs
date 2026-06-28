@@ -16,7 +16,7 @@ class Content(Base):
         default=ContentType.NEWS
     )
     description = Column(Text,nullable=False)
-    image_path = Column(String,nullable=True)
+    image_path = Column(String(256),nullable=True)
     location = Column(String,nullable=True)
     is_published = Column(Boolean,default=False,nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)

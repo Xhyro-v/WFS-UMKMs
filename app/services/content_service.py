@@ -98,8 +98,6 @@ def update_content_service(
       content.description = data.description
       content.image_path = data.image_path
       content.location = data.location
-  
-      
       
       try:
           updated_content = update_content(db,content)
