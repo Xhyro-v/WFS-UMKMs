@@ -4,7 +4,16 @@ from sqlalchemy.exc import IntegrityError
 
 from app.models.gallery import Gallery
 from app.schemas.gallery import GalleryCreate, GalleryUpdate, GalleryResponse
-from app.repositories.gallery_repository import create_gallery, update_gallery , delete_gallery ,get_by_id, get_all, publish_gallery, un_publish_gallery, get_by_published ,get_by_un_published
+from app.repositories.gallery_repository import(                 create_gallery,
+      update_gallery ,
+      delete_gallery ,
+      get_by_id, get_all, 
+      publish_gallery, 
+      un_publish_gallery,
+      get_by_published ,
+      get_by_un_published, 
+      get_gallery_published_id
+)
 
 #create_gallery_service
 #update_gallery_service
@@ -13,6 +22,7 @@ from app.repositories.gallery_repository import create_gallery, update_gallery ,
 #get_by_id_service
 #get_published_gallery
 #get_un_published_gallery
+#get_gallery_published_id
 #publish_gallery_service
 #un_publish_gallery_service
 
@@ -91,8 +101,9 @@ def update_gallery_service(
       gallery.image_path = data.image_path
       
       try:
-            updated_gallery = update_gallery(db,updated_gallery)
+            updated_gallery = update_gallery(db,gallery)
       except IntegrityError:
+            db.rollback()
             raise HTTPException(
                   status_code=409,
                   detail="Somthing wrong with update gallery process!!"
@@ -116,7 +127,7 @@ def delete_gallery_service(
       delete_gallery(db,gallery)
       
       return {
-            "message": "Galleru successfully deleted"
+            "message": "Gallery successfully deleted"
       }
 
 
@@ -124,13 +135,14 @@ def get_by_id_service(
       db: Session,
       gallery_id: int
 ):
-    gallery = get_by_id(db,gallery_id)
-    if not gallery:
-          raise HTTPException(
-                status_code=404,
-                detail=f"No gallery with id {gallery_id}"
-          )
-    return gallery
+      gallery = get_by_id(db,gallery_id)
+  
+      if not gallery:
+            raise HTTPException(
+                  status_code=404,
+                  detail=f"No gallery with id {gallery_id}"
+            )
+      return gallery
 
 def get_published_gallery(db: Session):
       gallery = get_by_published(db)
@@ -140,6 +152,18 @@ def get_un_published_gallery(db: Session):
       gallery = get_by_un_published(db)
       return gallery
 
+def get_gallery_published_id_service(
+      db: Session,
+      gallery_id: int
+):
+      gallery = get_gallery_published_id(db, gallery_id)
+      
+      if not gallery :
+            raise HTTPException(
+                  status_code=404,
+                  detail="Not found"
+            )
+      return gallery
 
 def publish_gallery_service(
       db: Session,

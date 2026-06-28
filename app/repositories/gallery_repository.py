@@ -18,12 +18,16 @@ def update_gallery(
       db.commit()
       db.refresh(gallery)
 
+      return gallery
+
 def delete_gallery(
       db: Session,
       gallery: Gallery
 ):
       db.delete(gallery)
       db.commit()
+
+      return gallery
 
 
 def get_by_id(
@@ -57,6 +61,17 @@ def get_by_un_published(db: Session):
             .all()
       )
 
+def get_gallery_published_id(
+      db: Session,
+      gallery_id: int
+):
+      return (
+            db.query(Gallery)
+            .filter(Gallery.id == gallery_id,
+                    Gallery.is_published == True)
+            .first()
+      )
+
 def publish_gallery(
       db : Session,
       gallery_id: int
@@ -67,8 +82,8 @@ def publish_gallery(
       )
       if gallery:
             gallery.is_published = True
-            db.commit(gallery)
-            db.refresh()
+            db.commit()
+            db.refresh(gallery)
       
       return gallery
 
@@ -82,7 +97,7 @@ def un_publish_gallery(
       )
       if gallery:
             gallery.is_published = False
-            db.commit(gallery)
-            db.refresh()
+            db.commit()
+            db.refresh(gallery)
       
       return gallery
