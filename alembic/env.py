@@ -10,7 +10,7 @@ from app.core.config import DATABASE_URL
 from app.models.admin import Admin
 from app.models.content import Content
 from app.models.menu import Menu
-from app.models.gallery import GalleryPhoto
+from app.models.gallery import Gallery
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
