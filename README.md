@@ -6,6 +6,7 @@
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue?logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi)
+![Vue.js](https://img.shields.io/badge/Vue.js-Frontend-4FC08D?logo=vuedotjs)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?logo=postgresql)
 ![Status](https://img.shields.io/badge/status-learning-orange)
 ![License](https://img.shields.io/badge/license-educational--only-orange)
