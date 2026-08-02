@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.exc import OperationalError
 
 from app.core.config import SECRET_KEY, DEBUG
@@ -17,6 +18,14 @@ from app.dependencies.auth import get_current_admin
 app = FastAPI(
     title="WFS UMKM API"
 )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 app.add_exception_handler(
     OperationalError,
@@ -37,7 +46,6 @@ app.include_router(content_router)
 app.include_router(admin_gallery_router)
 app.include_router(admin_content_router)
 app.include_router(admin_menu_router)
-
 
 @app.get("/")
 def root():

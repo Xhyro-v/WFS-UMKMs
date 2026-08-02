@@ -14,7 +14,7 @@ from app.services.content_service import (
 
 
 router = APIRouter(
-      prefix="/content",
+      prefix="/api/content",
       tags=["Content"]
 )
 
