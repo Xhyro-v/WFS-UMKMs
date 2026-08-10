@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends,Request
 from fastapi.responses import RedirectResponse, HTMLResponse 
-from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -23,7 +22,6 @@ router = APIRouter(
     tags=["Admin Menus"]
 )
 
-templates = Jinja2Templates(directory="templates")
 
 @router.post("/create")
 def create_menu(
@@ -62,7 +60,7 @@ def show_all_menu(
     return get_all_menu(db)
 
 
-@router.get("{/type/menu_type}")
+@router.get("/type/{menu_type}")
 def show_by_type(
     menu_type: MenuType,
     db: Session = Depends(get_db)

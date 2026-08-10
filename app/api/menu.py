@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends,Request
 from fastapi.responses import RedirectResponse, HTMLResponse 
-from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -20,7 +19,6 @@ router = APIRouter(
     tags=["Menus"]
 )
 
-templates = Jinja2Templates(directory="templates")
 
 
 @router.get("/menus")
