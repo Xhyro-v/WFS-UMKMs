@@ -10,7 +10,7 @@
 ##User 
 - Melihat update dari SME/UMKM/Usaha tersebut 
 - Preview menu  
-- Booking/Reserve  
+- Booking/Reserve 
 
 ---
 

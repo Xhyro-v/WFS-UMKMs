@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends,Request
 from fastapi.responses import RedirectResponse, HTMLResponse 
-from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -15,7 +14,10 @@ from app.services.menu_service import (
         get_all_menu,
         get_menu,
         get_by_type_service,
-        get_by_title_menu
+        get_by_title_menu,
+        publish_menu_service,
+        unpublish_menu_service,
+        
 )
 
 router = APIRouter(
@@ -23,7 +25,6 @@ router = APIRouter(
     tags=["Admin Menus"]
 )
 
-templates = Jinja2Templates(directory="templates")
 
 @router.post("/create")
 def create_menu(
@@ -54,6 +55,21 @@ def delete_menu(
 ):
       return delete_menu_service(db, menu_id)
 
+@router.patch("/publish/{menu_id}")
+def publish_menu(
+      menu_id : int,
+      db : Session = Depends(get_db),
+      current_admin = Depends(get_current_admin)
+):
+      return publish_menu_service(db,menu_id)
+
+@router.patch("/unpublish/{menu_id}")
+def unpublish_menu(
+      menu_id : int,
+      db : Session = Depends(get_db),
+      current_admin = Depends(get_current_admin)
+):
+      return unpublish_menu_service(db,menu_id)
 
 @router.get("/all")
 def show_all_menu(
@@ -62,7 +78,7 @@ def show_all_menu(
     return get_all_menu(db)
 
 
-@router.get("{/type/menu_type}")
+@router.get("/type/{menu_type}")
 def show_by_type(
     menu_type: MenuType,
     db: Session = Depends(get_db)

@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *.so
 
+#Node
+.node_modules/
+dist/
+
 # Virtual environment
 .venv/
 venv/

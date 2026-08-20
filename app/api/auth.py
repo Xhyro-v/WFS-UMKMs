@@ -48,7 +48,7 @@ def me(
 @router.post("/token")
 def get_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     data = AdminLogin(
         email=form_data.username,

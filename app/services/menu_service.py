@@ -16,7 +16,9 @@ from app.repositories.menu_repository import (
       get_by_published_title,
       get_by_published_id,
       get_by_published_type,
-      get_by_published_menus
+      get_by_published_menus,
+      publish_menu,
+      unpublish_menu
 )
 
 def create_menu_service(
@@ -135,6 +137,54 @@ def delete_menu_service(
           "message": "Menu successfully deleted"
       }
 
+def publish_menu_service(
+      db : Session,
+      menu_id: int
+):
+      menu = get_by_id(db, menu_id)
+      
+      if not menu :
+            raise HTTPException(
+                status_code=404,
+                detail="Menu not found"
+            )
+      if menu.is_published == True:
+            raise HTTPException(
+                status_code=404,
+                detail="Menu is already published"
+            )
+    
+      menu = publish_menu(db, menu_id)
+      
+      return {
+          "message":"Menu published successfully",
+          "Menu": menu.title
+      }
+
+
+def unpublish_menu_service(
+      db : Session,
+      menu_id: int
+):
+      menu = get_by_id(db, menu_id)
+      
+      if not menu :
+            raise HTTPException(
+                status_code=404,
+                detail="Menu not found"
+            )
+      if menu.is_published == False:
+            raise HTTPException(
+                status_code=404,
+                detail="Menu is already unpublished"
+            )
+    
+      menu = unpublish_menu(db, menu_id)
+      
+      return {
+          "message":"Menu unpublished successfully",
+          "Menu": menu.title
+      }
 
 def get_menu(db: Session ,menu_id: int):
       menu = get_by_id(db, menu_id)

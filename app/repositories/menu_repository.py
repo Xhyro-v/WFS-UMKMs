@@ -45,7 +45,7 @@ def get_all(db: Session):
     )
 
 
-#—————————————————————————PUBLICREPOS—————————————————————————
+#—————————————————————————PUBLICREPOS————————————————————————
 
 def get_by_published_title(
       db: Session,
@@ -88,3 +88,41 @@ def get_by_published_menus(db: Session):
         .filter(Menu.is_published == True)
         .all()
     )
+
+#—————————————————————————DataChange—————————————————————————
+
+
+def publish_menu(
+    db: Session,
+    menu_id: int
+):
+    menu = (
+        db.query(Menu)
+        .filter(Menu.id == menu_id)
+        .first()
+    )
+
+    if menu:
+        menu.is_published = True
+        db.commit()
+        db.refresh(menu)
+
+    return menu
+
+
+def unpublish_menu(
+    db: Session,
+    menu_id: int
+):
+    menu = (
+        db.query(Menu)
+        .filter(Menu.id == menu_id)
+        .first()
+    )
+
+    if menu:
+        menu.is_published = False
+        db.commit()
+        db.refresh(menu)
+
+    return menu
