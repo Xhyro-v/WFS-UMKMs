@@ -4,7 +4,7 @@
 
 **Websites company profile dan content management system (CMS) untuk demo web SMEs/UMKM**
 
-![Python](https://img.shields.io/badge/python-3.10+-blue?logo=python)
+![Python](https://img.shields.io/badge/python-3.13+-blue?logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi)
 ![Vue.js](https://img.shields.io/badge/Vue.js-Frontend-4FC08D?logo=vuedotjs)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?logo=postgresql)
@@ -38,7 +38,7 @@ Fullstack Web App •  FastAPI •  PostgreSQL •  Jinja2 SSR
 ## 🛠️ Tech Stack
 
 ###  Programming Language
-- Python 3.10+
+- Python 3.13+
 - HTML5
 - CSS
 - JavaScript

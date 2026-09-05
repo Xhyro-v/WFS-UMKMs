@@ -3,7 +3,7 @@ name = "wfs"
 version = "0.1.0"
 description = "A FastAPI-based company profile and CMS platform for UMKM."
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.13"
 dependencies = [
     "alembic==1.18.4",
     "anyio==4.13.0",
